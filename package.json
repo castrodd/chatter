@@ -14,6 +14,8 @@
     "nodemon": "^1.12.1"
   },
   "dependencies": {
-    "error-page": "0.0.7"
+    "error-page": "0.0.7",
+    "mime": "^2.0.1",
+    "ws": "^3.2.0"
   }
 }
