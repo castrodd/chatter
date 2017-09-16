@@ -6,3 +6,12 @@ var ws = new WebSocketServer({
 });
 
 console.log('websocket server started...');
+
+ws.on('connection', function(socket) {
+  console.log('client connection established...');
+
+  socket.on('message', function(data) {
+    console.log('message received: ' + data);
+    socket.send(data);
+  })
+})
