@@ -1,10 +1,13 @@
 import socket from './ws-client';
-import {ChatForm, ChatList} from './dom';
+import {ChatForm, ChatList, promptForUsername} from './dom';
+
+let username = '';
+username = promptForUsername();
 
 class ChatApp {
   constructor() {
     this.chatForm = new ChatForm('[data-chat="chat-form"]', '[data-chat="message-input"]');
-    this.chatList = new ChatList('[data-chat="message-list"]', 'chatterbox');
+    this.chatList = new ChatList('[data-chat="message-list"]', username);
     socket.init('ws://localhost:3001');
     socket.registerOpenHandler(() => {
       this.chatForm.init((text) => {
@@ -23,7 +26,7 @@ class ChatApp {
 class ChatMessage {
   constructor({
     message: m,
-    user: u='anon',
+    user: u= username,
     timestamp: t=(new Date()).getTime()
   }) {
       this.message = m;
