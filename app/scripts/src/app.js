@@ -1,6 +1,7 @@
 import socket from './ws-client';
 import {UserStore} from './storage';
 import {ChatForm, ChatList, promptForUsername} from './dom';
+var moment = require('moment');
 
 let userStore = new UserStore('x-chattrbox/u');
 let username = userStore.get();
@@ -13,12 +14,14 @@ class ChatApp {
   constructor() {
     this.chatForm = new ChatForm('[data-chat="chat-form"]', '[data-chat="message-input"]');
     this.chatList = new ChatList('[data-chat="message-list"]', username);
+
     socket.init('ws://localhost:3001');
     socket.registerOpenHandler(() => {
       this.chatForm.init((text) => {
         let message = new ChatMessage({ message: text });
         socket.sendMessage(message.serialize());
       });
+      this.chatList.init();
     });
     socket.registerMessageHandler((data) => {
       console.log('second', data);
